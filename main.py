@@ -1,14 +1,17 @@
 import sys
 import pygame
+import random
 from pygame.locals import *
+import time
 
 pygame.init()
 mainClock = pygame.time.Clock()
 
-screen_width = 860
-screen_height = 640
+WIDTH = 860
+HEIGHT = 640
 
-screen = pygame.display.set_mode((screen_width, screen_height))
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sorting visualization')
 
 font = pygame.font.SysFont('Constantia', 30)
@@ -68,20 +71,59 @@ class Button():
         return action
 
 class Rectangle:
-    pass
+    rect_color = (0, 0, 255)
+    sort_color = (255, 0, 0)
+    
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.color = self.rect_color
+        self.width = width
+        self.height = height
+        self.action = False
+        
+    def draw_rect(self):
+        #create pygame Rect object for the button
+        rect = Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(screen, self.color, rect)
+        
+            
+    
+def generate_rectangle():
+    rectangle_list = []
+    inital_pos_x = 50
+    
+    for _ in range(50):
+        rand_height = random.randint(1, 450)
+        rect = Rect(inital_pos_x, 30, 10, rand_height)
+        rectangle_list.append(rect)            
+        inital_pos_x += 15
+    
+    return rectangle_list
 
-def bubble_sort():
+
+def bubble_sort_screen():
     running = True
+    rect_list = generate_rectangle()
     while running:
         screen.fill((255,255,255))
         start = Button(650, 550, (0, 125, 255), 'Start BS')
         back = Button(20, 550, (255,140,0), 'Back')
+        for rect in rect_list:
+            pygame.draw.rect(screen, (0, 0, 255), rect)
+
 
         if start.draw_button():
-            print('Started bubble sort')
+            print("Bubble sort stated")
             
+            # Implement bubble sort
+            
+            print("Bubble sort finised")
+
         if back.draw_button():
             running = False
+
+        
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -92,15 +134,19 @@ def bubble_sort():
                     running = False
 
         pygame.display.update()
-        mainClock.tick(60)
 
-def quicksort():
+
+def quicksort_screen():
     running = True
+    rect_list = generate_rectangle()
     while running:
         screen.fill((255,255,255))
         start = Button(650, 550, (0, 125, 255), 'Start QS')
         back = Button(20, 550, (255,140,0), 'Back')
-        
+        for rect in rect_list:
+            pygame.draw.rect(screen, (0, 0, 255), rect)
+            
+            
         if start.draw_button():
             print('Started quicksort')
             
@@ -130,11 +176,11 @@ while run:
 
     if btn_bubble_sort.draw_button():
         print('Bubble')
-        bubble_sort()
+        bubble_sort_screen()
 
     if btn_quicksort.draw_button():
         print('Quicksort')
-        quicksort()
+        quicksort_screen()
 
     if btn_quit.draw_button():
         print('Quit')
