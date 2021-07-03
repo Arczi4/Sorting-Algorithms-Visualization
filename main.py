@@ -80,14 +80,12 @@ class Rectangle:
         self.color = self.rect_color
         self.width = width
         self.height = height
-        self.action = False
         
     def draw_rect(self):
         #create pygame Rect object for the button
         rect = Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(screen, self.color, rect)
+        pygame.draw.rect(screen, self.color, rect)        
         
-            
     
 def generate_rectangle():
     rectangle_list = []
@@ -95,7 +93,7 @@ def generate_rectangle():
     
     for _ in range(50):
         rand_height = random.randint(1, 450)
-        rect = Rect(inital_pos_x, 30, 10, rand_height)
+        rect = Rectangle(inital_pos_x, 30, 10, rand_height)
         rectangle_list.append(rect)            
         inital_pos_x += 15
     
@@ -110,7 +108,7 @@ def bubble_sort_screen():
         start = Button(650, 550, (0, 125, 255), 'Start BS')
         back = Button(20, 550, (255,140,0), 'Back')
         for rect in rect_list:
-            pygame.draw.rect(screen, (0, 0, 255), rect)
+            rect.draw_rect()
 
 
         if start.draw_button():
@@ -144,7 +142,7 @@ def quicksort_screen():
         start = Button(650, 550, (0, 125, 255), 'Start QS')
         back = Button(20, 550, (255,140,0), 'Back')
         for rect in rect_list:
-            pygame.draw.rect(screen, (0, 0, 255), rect)
+            rect.draw_rect()
             
             
         if start.draw_button():
