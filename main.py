@@ -80,35 +80,36 @@ def display_rect(height_list):
         pygame.draw.rect(screen, (0,0,255), (initial_x + 20, initial_y, 10, height))
         initial_x += 11
         
-def partition(arr, low, high):
+def partition(height_list, low, high):
     i = (low - 1)
-    pivot = arr[high]
+    pivot = height_list[high]
     
     for j in range(low, high):
-        if arr[j] <= pivot:
+        if height_list[j] <= pivot:
             i += 1
-            arr[i], arr[j] = arr[j], arr[i]
+            height_list[i], height_list[j] = height_list[j], height_list[i]
             screen.fill((255,255,255))
-            display_rect(arr)
+            display_rect(height_list)
             pygame.time.delay(30)
             pygame.display.update()
     
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    height_list[i + 1], height_list[high] = height_list[high], height_list[i + 1]
     screen.fill((255,255,255))
-    display_rect(arr)
+    display_rect(height_list)
     pygame.time.delay(30)
     pygame.display.update()
     return (i + 1)
 
-def quick_sort(arr, low, high):
-    if len(arr) == 1:
-        return arr
+def quick_sort(height_list, low, high):
+    if len(height_list) == 1:
+        return height_list
     
     if low < high:
-        pi = partition(arr, low, high)
+        pi = partition(height_list, low, high)
 
-        quick_sort(arr, low, pi - 1)            
-        quick_sort(arr, pi + 1, high)
+        quick_sort(height_list, low, pi - 1)
+          
+        quick_sort(height_list, pi + 1, high)
         
 
 def bubble_sort_screen():
@@ -132,7 +133,7 @@ def bubble_sort_screen():
                     
                     screen.fill((255,255,255))
                     display_rect(rect_height)
-                    pygame.time.delay(10)
+                    pygame.time.delay(1)
                     pygame.display.update()
             
             print("Bubble sort finised")
