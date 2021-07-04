@@ -133,7 +133,7 @@ def bubble_sort_screen():
                     
                     screen.fill((255,255,255))
                     display_rect(rect_height)
-                    pygame.time.delay(1)
+                    pygame.time.delay(30)
                     pygame.display.update()
             
             print("Bubble sort finised")
