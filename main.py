@@ -79,7 +79,37 @@ def display_rect(height_list):
     for height in height_list:
         pygame.draw.rect(screen, (0,0,255), (initial_x + 20, initial_y, 10, height))
         initial_x += 11
+        
+def partition(arr, low, high):
+    i = (low - 1)
+    pivot = arr[high]
+    
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+            screen.fill((255,255,255))
+            display_rect(arr)
+            pygame.time.delay(30)
+            pygame.display.update()
+    
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    screen.fill((255,255,255))
+    display_rect(arr)
+    pygame.time.delay(30)
+    pygame.display.update()
+    return (i + 1)
 
+def quick_sort(arr, low, high):
+    if len(arr) == 1:
+        return arr
+    
+    if low < high:
+        pi = partition(arr, low, high)
+
+        quick_sort(arr, low, pi - 1)            
+        quick_sort(arr, pi + 1, high)
+        
 
 def bubble_sort_screen():
     
@@ -125,18 +155,25 @@ def bubble_sort_screen():
 
 def quicksort_screen():
     running = True
+    rect_height = generate_height()
     while running:
         mainClock.tick(60)
         screen.fill((255,255,255))
         start = Button(650, 550, (0, 125, 255), 'Start QS')
         back = Button(20, 550, (255,140,0), 'Back')
-
-
+        display_rect(rect_height)
+        
         if start.draw_button():
-            print('Started quicksort')
+            print("Quick sort stated")
             
+            quick_sort(rect_height, 0, len(rect_height) - 1)
+            
+            print("Quick sort  finised")
+
         if back.draw_button():
             running = False
+
+        
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -145,11 +182,8 @@ def quicksort_screen():
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     running = False
-                    
 
         pygame.display.update()
-        mainClock.tick(60)
-
 
 btn_bubble_sort = Button(320, 100, (0, 125, 255), 'Bubble sort')
 btn_quicksort = Button(320, 200, (0, 125, 255), 'Quicksort')
