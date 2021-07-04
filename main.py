@@ -10,7 +10,6 @@ mainClock = pygame.time.Clock()
 WIDTH = 860
 HEIGHT = 640
 
-
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Sorting visualization')
 
@@ -70,51 +69,41 @@ class Button():
         screen.blit(text_img, (self.x + int(self.width / 2) - int(text_len / 2), self.y + 25))
         return action
 
-class Rectangle:
-    rect_color = (0, 0, 255)
-    sort_color = (255, 0, 0)
+def generate_height():
+    return [random.randint(1, 400) for _ in range(70)]
+
+def display_rect(height_list):
+    initial_x = 20
+    initial_y = 30
     
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.color = self.rect_color
-        self.width = width
-        self.height = height
-        
-    def draw_rect(self):
-        #create pygame Rect object for the button
-        rect = Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(screen, self.color, rect)        
-        
-    
-def generate_rectangle():
-    rectangle_list = []
-    inital_pos_x = 50
-    
-    for _ in range(50):
-        rand_height = random.randint(1, 450)
-        rect = Rectangle(inital_pos_x, 30, 10, rand_height)
-        rectangle_list.append(rect)            
-        inital_pos_x += 15
-    
-    return rectangle_list
+    for height in height_list:
+        pygame.draw.rect(screen, (0,0,255), (initial_x + 20, initial_y, 10, height))
+        initial_x += 11
 
 
 def bubble_sort_screen():
+    
     running = True
-    rect_list = generate_rectangle()
+    rect_height = generate_height()
     while running:
+        mainClock.tick(60)
         screen.fill((255,255,255))
         start = Button(650, 550, (0, 125, 255), 'Start BS')
         back = Button(20, 550, (255,140,0), 'Back')
-        for rect in rect_list:
-            rect.draw_rect()
-
-
+        display_rect(rect_height)
+        
         if start.draw_button():
             print("Bubble sort stated")
             
-            # Implement bubble sort
+            for i in range(len(rect_height) - 1):
+                for j in range(len(rect_height) - i -1):
+                    if rect_height[j] > rect_height[j+1]:
+                        rect_height[j], rect_height[j+1] = rect_height[j+1], rect_height[j]
+                    
+                    screen.fill((255,255,255))
+                    display_rect(rect_height)
+                    pygame.time.delay(10)
+                    pygame.display.update()
             
             print("Bubble sort finised")
 
@@ -136,15 +125,13 @@ def bubble_sort_screen():
 
 def quicksort_screen():
     running = True
-    rect_list = generate_rectangle()
     while running:
+        mainClock.tick(60)
         screen.fill((255,255,255))
         start = Button(650, 550, (0, 125, 255), 'Start QS')
         back = Button(20, 550, (255,140,0), 'Back')
-        for rect in rect_list:
-            rect.draw_rect()
-            
-            
+
+
         if start.draw_button():
             print('Started quicksort')
             
